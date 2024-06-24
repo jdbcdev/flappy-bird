@@ -7,9 +7,12 @@ using System.Numerics;
 */
 public class Pipe {
 
-    private int firstX;
     public int posX {get; set;}
     public int posY {get; set;}
+
+    public bool passed {get; set;}
+    
+    private int firstX;
 
     private Texture2D textureDown;
     private Texture2D textureUp;
@@ -22,9 +25,8 @@ public class Pipe {
         this.textureUp = textureUp;
         this.posX = x;
         this.firstX = x;
-
-        Random random = new Random();
-        this.posY = random.Next(170, 300);
+        this.passed = false;
+        this.RandomPosY();
     }
 
     /*
@@ -36,5 +38,13 @@ public class Pipe {
         DrawTexture(this.textureDown, this.posX, this.posY, Color.White);
 
         DrawTexture(this.textureUp, this.posX, this.posY - 420, Color.White);
+    } 
+
+    /*
+    *
+    */
+    public void RandomPosY() {
+        Random random = new Random();
+        this.posY = random.Next(170, 300);
     }
 }

@@ -7,7 +7,12 @@ using System.Numerics;
 */
 public class Bird {
 
-    private int x,y;
+    public int BIRD_WIDTH = 34;
+    public int BIRD_HEIGHT = 24;
+
+    public int posX {get; private set;}
+    public int posY {get; private set;}
+
     private int counter = 0;
     private int textureIndex = 0;
 
@@ -34,8 +39,8 @@ public class Bird {
     * Update bird
     */
     public void Update(int x, int y) {
-        this.x = x;
-        this.y = y;
+        this.posX = x;
+        this.posY = y;
 
         counter ++;
 
@@ -49,7 +54,7 @@ public class Bird {
             textureIndex = 0;
         }
         
-        DrawTexture(this.textureBird[textureIndex], x, y, Color.White);
+        DrawTexture(this.textureBird[textureIndex], this.posX, this.posY, Color.White);
     }
 
     /*
