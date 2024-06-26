@@ -13,8 +13,6 @@ public class FlappyBirdGame
 {
     public static int Main()
     {
-        
-
         Game game = new Game();
         game.Run();
 

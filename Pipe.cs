@@ -7,6 +7,10 @@ using System.Numerics;
 */
 public class Pipe {
 
+    public const int PIPE_WIDTH = 52;
+    public const int PIPE_HEIGHT = 320;
+    public const int PIPE_GAP = 100;
+
     public int posX {get; set;}
     public int posY {get; set;}
 
@@ -29,22 +33,26 @@ public class Pipe {
         this.RandomPosY();
     }
 
-    /*
-    *
-    */
     public void Update() {
         this.posX -= 1;
 
         DrawTexture(this.textureDown, this.posX, this.posY, Color.White);
 
-        DrawTexture(this.textureUp, this.posX, this.posY - 420, Color.White);
+        DrawTexture(this.textureUp, this.posX, this.posY - PIPE_HEIGHT - PIPE_GAP, Color.White);
     } 
 
-    /*
-    *
-    */
     public void RandomPosY() {
         Random random = new Random();
         this.posY = random.Next(170, 300);
+    }
+
+    public bool Collide(Bird bird) {
+
+        Rectangle rec1 = new Rectangle(this.posX, this.posY, PIPE_WIDTH, PIPE_HEIGHT);
+        Rectangle rec2 = new Rectangle(this.posX, this.posY - PIPE_HEIGHT - PIPE_GAP, PIPE_WIDTH, PIPE_HEIGHT);
+
+        Rectangle rectBird = new Rectangle(bird.posX, bird.posY, bird.BIRD_WIDTH, bird.BIRD_HEIGHT);
+
+        return CheckCollisionRecs(rec1, rectBird) || CheckCollisionRecs(rec2, rectBird);
     }
 }

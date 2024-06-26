@@ -24,6 +24,8 @@ public class Game
 
     private int scorePosX = SCREEN_WIDTH / 2;
 
+    private bool gameOver = false;
+
     public void Run() {
 
         InitWindow(SCREEN_WIDTH, SCREEN_HEIGHT, "Flappy Bird Clone");
@@ -46,12 +48,16 @@ public class Game
         int y = SCREEN_HEIGHT / 2 - textureBackground.Height / 2;
 
          // Main loop
-        while (!WindowShouldClose())
+        while (!WindowShouldClose() && !gameOver)
         {
             BeginDrawing();
             ClearBackground(Color.White);
             
             this.HandleInput();
+
+            if (this.pipeManager.CheckCollision(this.bird)) {
+                this.gameOver = true;
+            }
 
             DrawTexture(textureBackground, x, y, Color.White);
 

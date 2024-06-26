@@ -3,9 +3,6 @@ using static Raylib_cs.Raylib;
 
 public class PipeManager {
 
-    private const int PIPE_WIDTH = 52;
-    private const int PIPE_HEIGHT = 320;
-
     private List<Pipe> pipeList = new();
 
     private Texture2D textureDown;
@@ -58,9 +55,11 @@ public class PipeManager {
         }
     }
 
-    public bool checkCollision(Bird bird) {
+    public bool CheckCollision(Bird bird) {
         foreach (Pipe pipe in this.pipeList) {
-            
+            if (pipe.Collide(bird)) {
+                return true;
+            }
         }
         return false;
     }
