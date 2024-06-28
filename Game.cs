@@ -47,7 +47,7 @@ public class Game
         int x = (SCREEN_WIDTH / 2 - textureBackground.Width / 2);
         int y = SCREEN_HEIGHT / 2 - textureBackground.Height / 2;
 
-         // Main loop
+        // Main loop
         while (!WindowShouldClose() && !gameOver)
         {
             BeginDrawing();
@@ -95,6 +95,7 @@ public class Game
     }
 
     private void HandleInput() {
+        
         // Input handling
         if (IsKeyDown(KeyboardKey.Space)) {
             this.yBird -= BIRD_DOWN;
