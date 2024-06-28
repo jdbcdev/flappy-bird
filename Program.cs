@@ -1,8 +1,5 @@
 ﻿using Raylib_cs;
 using static Raylib_cs.Raylib;
-using System.Numerics;
-using System;
-using System.Text;
 
 namespace Company.FlappyBird;
 

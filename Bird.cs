@@ -22,7 +22,7 @@ public class Bird {
      * Constructor
      */
     public Bird() {
-         // Load bird texture
+        // Load bird texture
         Image birdUpFlap = LoadImage("sprites/yellowbird-upflap.png");
         Image birdMidFlap = LoadImage("sprites/yellowbird-midflap.png");
         Image birdDownFlap = LoadImage("sprites/yellowbird-downflap.png");
