@@ -6,6 +6,8 @@ public class Game
     public Bird bird {get; private set;}
 
     public int score {get; set;}
+    private List<Texture2D> scoreTextures = new();
+    private int scorePosX = SCREEN_WIDTH / 2;
 
     private const int SCREEN_WIDTH = 288;
     private const int SCREEN_HEIGHT = 512;
@@ -20,9 +22,7 @@ public class Game
 
     private int xBird, yBird;
 
-    private List<Texture2D> scoreTextures = new();
-
-    private int scorePosX = SCREEN_WIDTH / 2;
+    private Texture2D textureGameover;
 
     private bool gameOver = false;
 
@@ -36,6 +36,8 @@ public class Game
 
         LoadScoreTextures();
 
+        LoadGameOverTexture();
+
         this.score = 0;
         this.pipeManager = new PipeManager(SCREEN_WIDTH);
 
@@ -48,25 +50,41 @@ public class Game
         int y = SCREEN_HEIGHT / 2 - textureBackground.Height / 2;
 
         // Main loop
-        while (!WindowShouldClose() && !gameOver)
+        while (!WindowShouldClose())
         {
             BeginDrawing();
             ClearBackground(Color.White);
-            
-            this.HandleInput();
 
+            // Check collision bird and pipes
             if (this.pipeManager.CheckCollision(this.bird)) {
                 this.gameOver = true;
             }
 
-            DrawTexture(textureBackground, x, y, Color.White);
-
-            this.pipeManager.Update(this);
-            DrawTexture(textureBase, x, SCREEN_HEIGHT - 112, Color.White);
-
-            this.bird.Update(xBird, yBird);
+            // Check collision against the floor
+            if (this.bird.posY > (SCREEN_HEIGHT - 130)) {
+                this.gameOver = true;
+            }
             
-            this.DrawScore();
+            this.HandleInput();
+
+            if (!this.gameOver) {
+
+                DrawTexture(textureBackground, x, y, Color.White);
+
+                this.pipeManager.Update(this);
+                DrawTexture(textureBase, x, SCREEN_HEIGHT - 112, Color.White);
+
+                this.bird.Update(xBird, yBird);
+                
+                this.DrawScore();
+            } else {
+                DrawTexture(textureBackground, x, y, Color.White);
+                DrawTexture(textureBase, x, SCREEN_HEIGHT - 112, Color.White);
+
+                DrawTexture(textureGameover, 50, 120, Color.White);
+
+                this.DrawScore();
+            }
 
             EndDrawing();
         }
@@ -96,11 +114,20 @@ public class Game
 
     private void HandleInput() {
         
-        // Input handling
-        if (IsKeyDown(KeyboardKey.Space)) {
-            this.yBird -= BIRD_DOWN;
+        if (!gameOver) {
+            // Input handling
+            if (IsKeyDown(KeyboardKey.Space)) {
+                this.yBird -= BIRD_DOWN;
+            } else {
+                this.yBird += BIRD_UP;
+            }
         } else {
-            this.yBird += BIRD_UP;
+            if (IsKeyDown(KeyboardKey.Enter)) {
+                this.InitBirdPosition();
+                this.pipeManager = new PipeManager(SCREEN_WIDTH);
+
+                this.gameOver = false;
+            }
         }
     }
 
@@ -112,6 +139,12 @@ public class Game
             this.scoreTextures.Add(numberTexture);
             UnloadImage(numberImage);
         }
+    }
+
+    private void LoadGameOverTexture() {
+        Image gameoverImage = LoadImage("sprites/gameover.png");
+        this.textureGameover = LoadTextureFromImage(gameoverImage);
+        UnloadImage(gameoverImage);
     }
 
     private bool CheckCollision() {
